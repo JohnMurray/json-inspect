@@ -5,6 +5,7 @@
 ## Creates a histogram of field-values given a dot-delimited search path.
 ## Prints the output out in text.
 
+import argparse
 import json
 import math
 import operator
@@ -16,30 +17,40 @@ from optparse import OptionParser
 
 
 def main():
-  usage = "json-histo [options] search [search [...]]"
-  parser = OptionParser(usage=usage)
+  parser = argparse.ArgumentParser(description='Utility for inspecting JSON files/input')
+  parser.add_argument('-f' , '--file', nargs=1, action='store',
+                      help='JSON file to read in. If not provided STDIN will be used')
+  sub_parsers = parser.add_subparsers()
 
-  parser.add_option('-p', '--prefix', dest='prefix', action='store',
-                    help='String to prefix all search-paths with')
-  parser.add_option('-f', '--file', dest='filename', action='store',
-                    help='JSON file to read in. If not provided STDIN will be used')
-  parser.add_option('-c', '--conflate', dest='conflate', action='store_true',
-                    default=False, help='Conflate non-empty responses to the same value')
+  parser_histo = sub_parsers.add_parser('histo', description='Generate a histogram based on values'
+                                        ' found using a JSON search expression',
+                                        help='Create histograms from JSON values')
 
-  (options, args) = parser.parse_args()
+  parser_histo.add_argument('-p', '--prefix', dest='prefix', action='store',
+                            help='String to prefix all search-paths with')
+  parser_histo.add_argument('-c', '--conflate', dest='conflate', action='store_true',
+                            default=False, help='Conflate non-empty responses to the same value')
+  parser_histo.add_argument('paths', metavar='paths', nargs='+', type=str,
+                            help='search paths to create histograms for, prefixed with optional value '
+                                  'from the --prefix option')
+  parser_histo.set_defaults(func=command_histo)
 
-  _json = read_json(options.filename)
+  args = parser.parse_args()
+  args.func(args)
+
+def command_histo(args):
+  _json = read_json(args.file)
   if _json is None or len(_json) is 0:
     print("No file or STDIN provided")
     sys.exit(1)
     
   prefix = ''
-  if options.prefix is not None:
-    prefix = options.prefix
-  search_paths = [prefix + a for a in args]
+  if args.prefix is not None:
+    prefix = args.prefix
+  search_paths = [prefix + p for p in args.paths]
 
   for path in search_paths:
-    matches = process_input(_json, path, options.conflate)
+    matches = process_input(_json, path, args.conflate)
     print_histo(path, matches)
 
 def print_histo(path, matches):
