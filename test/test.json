@@ -1,0 +1,27 @@
+[
+ {
+   "facebook": {
+     "user": {
+       "demographic": {
+         "regions": [ {"name": "US"}, {"name": "Kentucky"}, {"name": "Louisville"} ]
+       }
+     }
+   },
+   "google": {
+     "user": {
+       "demographic": {
+         "regions": [ {"name": "US"}, {"name": "Kentucky"}, {"name": "Highland Heights"} ]
+       }
+     }
+   }
+ },
+ {
+   "twitter": {
+     "user": {
+       "demographic": {
+         "regions": [ {"name": "UK"}, {"name": "Wales"} ]
+       }
+     }
+   }
+ }
+]
