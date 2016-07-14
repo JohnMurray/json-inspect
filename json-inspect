@@ -9,11 +9,8 @@ import argparse
 import json
 import math
 import operator
-import optparse
 import os
 import sys
-
-from optparse import OptionParser
 
 
 def main():
