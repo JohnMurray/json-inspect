@@ -19,10 +19,10 @@ def main():
                       help='JSON file to read in. If not provided STDIN will be used')
   sub_parsers = parser.add_subparsers()
 
+  # histo sub-command
   parser_histo = sub_parsers.add_parser('histo', description='Generate a histogram based on values'
                                         ' found using a JSON search expression',
                                         help='Create histograms from JSON values')
-
   parser_histo.add_argument('-p', '--prefix', dest='prefix', action='store',
                             help='String to prefix all search-paths with')
   parser_histo.add_argument('-c', '--conflate', dest='conflate', action='store_true',
@@ -32,8 +32,52 @@ def main():
                                   'from the --prefix option')
   parser_histo.set_defaults(func=command_histo)
 
+  # extract sub-command
+  parser_ext = sub_parsers.add_parser('ext', description='Extract values from JSON using a JSON'
+                                      ' search expression', help='Extract values from JSON')
+  parser_ext.add_argument('-p', '--prefix', dest='prefix', action='store',
+                          help='String to prefix all search-paths with')
+  parser_ext.add_argument('-d', '--delimiter', dest='delim', action='store', default=',',
+                          help='String to delimit all results by')
+  parser_ext.add_argument('-F', '--flatten', dest='flatten', action='store_true', default=False,
+                          help='Flatten array and object values. For objects, only the values (not the keys)'
+                          ' are retained in the falttened values')
+  parser_ext.add_argument('-r', '--recursive', dest='recursive', action='store_true', default=False,
+                          help='Used with --flatten, recurisvely flattens array and object values')
+  parser_ext.add_argument('paths', metavar='paths', nargs='+', type=str,
+                          help='search paths to return values for')
+  parser_ext.set_defaults(func=command_extract)
+
+  # validate sub-command
+  parser_val = sub_parsers.add_parser('validate', description='Given some text, determine if it is valid JSON or not',
+                                      help='Validate text input as JSON')
+  parser_val.set_defaults(func=command_validate)
+
+  # format sub-command
+  parser_fmt = sub_parsers.add_parser('format', description='Nicely format JSON input',
+                                      help='Nicely format JSON input')
+  parser_fmt.set_defaults(func=command_format)
+
   args = parser.parse_args()
   args.func(args)
+
+def command_format(args):
+  """
+  Nicely format JSON input (pretty print)
+  """
+  print("Command not yet implimented yet")
+
+def command_validate(args):
+  """
+  Validate that the given input is JSON
+  """
+  print("Command not yet implimented yet")
+
+def command_extract(args):
+  """
+  Command to extract values from JSON given a search path.
+  """
+  print("Command not yet implimented yet")
 
 def command_histo(args):
   _json = read_json(args.file)
