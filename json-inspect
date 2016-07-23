@@ -42,8 +42,6 @@ def main():
   parser_ext.add_argument('-F', '--flatten', dest='flatten', action='store_true', default=False,
                           help='Flatten array and object values. For objects, only the values (not the keys)'
                           ' are retained in the falttened values')
-  parser_ext.add_argument('-r', '--recursive', dest='recursive', action='store_true', default=False,
-                          help='Used with --flatten, recurisvely flattens array and object values')
   parser_ext.add_argument('paths', metavar='paths', nargs='+', type=str,
                           help='search paths to return values for')
   parser_ext.set_defaults(func=command_extract)
@@ -77,7 +75,58 @@ def command_extract(args):
   """
   Command to extract values from JSON given a search path.
   """
-  print("Command not yet implimented yet")
+  _json = read_json(args.file)
+  if _json is None or len(_json) is 0:
+    print("No file or STDIN provided")
+    sys.exit(1)
+
+  prefix = ''
+  if args.prefix is not None:
+    prefix = args.prefix
+  search_paths = [prefix + p for p in args.paths]
+
+  for path in search_paths:
+    extract_values(_json, path, args.flatten, args.delim)
+
+def extract_values(_json, path, flatten, delim):
+  """
+  """
+  results       = {}
+  search_tokens = path.split('.')
+  search_stack  = [_json]
+  next_stack    = []
+
+  for token in search_tokens:
+    while search_stack:
+      node = search_stack.pop()
+      if token == '[]' and isinstance(node, list):
+        for n in node:
+          next_stack.append(n)
+      elif token == '*' and isinstance(node, dict):
+        for k,v in node.iteritems():
+          next_stack.append(v)
+      elif isinstance(node, dict):
+        if node.get(token, None) is not None:
+          next_stack.append(node.get(token))
+        else:
+          pass # not match
+
+    search_stack = next_stack
+    next_stack = []
+
+  _first = True
+  for res in search_stack:
+    if not _first:
+      print(delim)
+      _first = False
+    if flatten and isinstance(res, list):
+      for item in res:
+        print(str(item))
+    elif flatten and isinstance(res, dict):
+      for _,item in res.iteritems():
+        print(str(item))
+    else:
+      print(str(res))
 
 def command_histo(args):
   _json = read_json(args.file)
@@ -91,7 +140,7 @@ def command_histo(args):
   search_paths = [prefix + p for p in args.paths]
 
   for path in search_paths:
-    matches = process_input(_json, path, args.conflate)
+    matches = build_histo(_json, path, args.conflate)
     print_histo(path, matches)
 
 def print_histo(path, matches):
@@ -104,7 +153,7 @@ def print_histo(path, matches):
     percent_of_50 = int(math.ceil(50 * float(v) / float(_max)))
     print "{0:15s} | {1:50s} | ({2})".format(k[0:13], '#' * percent_of_50, v)
 
-def process_input(json, path, conflate):
+def build_histo(json, path, conflate):
   """
   create a dict of metches. The keys in the dict are the JSON values at
   the specified path and the value is the count for the number of times
@@ -115,11 +164,11 @@ def process_input(json, path, conflate):
   search_paths - array of search strings
   conflate     - bool flag to conflate positive values or not
   """
-  results = {}
-
+  results       = {}
   search_tokens = path.split('.')
-  search_stack = [json]
-  next_stack = []
+  search_stack  = [json]
+  next_stack    = []
+
   for token in search_tokens:
     while search_stack:
       node = search_stack.pop()
