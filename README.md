@@ -138,3 +138,40 @@ Wales           | #########################                          | (1)
 
 The bar-chart represents the number found relative to the max found with a total count of finds per-element
 in the rightmost column.
+
+
+### ext
+
+The `ext`, extraction command, is used for pulling data out of JSON files. It supports the
+same prefix and search expressions as `histo` along with a few other options for value output.
+
+```
+$ json-inspect ext -h
+usage: json-inspect ext [-h] [-p PREFIX] [-d DELIM] [-F] paths [paths ...]
+
+Extract values from JSON using a JSON search expression
+
+positional arguments:
+  paths                 search paths to return values for
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -p PREFIX, --prefix PREFIX
+                        String to prefix all search-paths with
+  -d DELIM, --delimiter DELIM
+                        String to delimit all results by
+  -F, --flatten         Flatten array and object values. For objects, only the
+                        values (not the keys) are retained in the falttened
+                        values
+```
+
+Using the same input test JSON file from the `histo` command, we can see an example of
+output
+
+```
+$ cat test.json | json-inspect ext "[].*.user.demographic.regions.[].*"
+Louisville,Kentucky,US,Highland Heights,Kentucky,US,Wales,UK
+
+$ cat test.json | json-inspect ext -d '|' "[].*.user.demographic.regions.[].*"
+Louisville|Kentucky|US|Highland Heights|Kentucky|US|Wales|UK
+```

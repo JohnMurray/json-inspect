@@ -117,16 +117,17 @@ def extract_values(_json, path, flatten, delim):
   _first = True
   for res in search_stack:
     if not _first:
-      print(delim)
+      sys.stdout.write(delim)
+    else:
       _first = False
     if flatten and isinstance(res, list):
       for item in res:
-        print(str(item))
+        sys.stdout.write(str(item))
     elif flatten and isinstance(res, dict):
       for _,item in res.iteritems():
-        print(str(item))
+        sys.stdout.write(str(item))
     else:
-      print(str(res))
+      sys.stdout.write(str(res))
 
 def command_histo(args):
   _json = read_json(args.file)
