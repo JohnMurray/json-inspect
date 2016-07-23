@@ -34,13 +34,16 @@ sub-commands, run the utility with the `-h` options without providing a sub-comm
 
 ```text
 $ json-inspect -h
-usage: json-inspect [-h] [-f FILE] {histo} ...
+usage: json-inspect [-h] [-f FILE] {histo,ext,validate,format} ...
 
 Utility for inspecting JSON files/input
 
 positional arguments:
-  {histo}
+  {histo,ext,validate,format}
     histo               Create histograms from JSON values
+    ext                 Extract values from JSON
+    validate            Validate text input as JSON
+    format              Nicely format JSON input
 
 optional arguments:
   -h, --help            show this help message and exit
