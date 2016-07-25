@@ -4,8 +4,8 @@ A command-line tool for inspecting and working with JSON files. Current sub-comm
 
 * `histo`
 * `extract`
-* `validate` (coming soon)
-* `format` (coming soon)
+* `validate` (coming soon if I need it)
+* `format` (coming soon if I need it)
 
 Each sub-command provides an individual utility for inspecting JSON files and each is documented separately
 below.
