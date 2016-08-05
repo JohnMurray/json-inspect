@@ -12,18 +12,10 @@ below.
 
 ## Installation
 
-The utility comes as a single Python script. It can be installed simply as
+You an simply install with the normal method for Python utils, such as
 
 ```sh
-mkdir -p $HOME/bin
-curl -O $HOME/bin/json-inspect https://raw.githubusercontent.com/JohnMurray/json-inspect/master/json-inspect
-chmod 0755 $HOME/bin/json-inspect
-```
-
-Also ensure that the path `$HOME/bin` is on your `$PATH`. If you are using bash, then you can run
-
-```sh
-echo 'PATH=$HOME/bin:$PATH' >> $HOME/.bashrc
+pip install json-inspect
 ```
 
 ## Sub-Commands
