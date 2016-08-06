@@ -1,16 +1,3 @@
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
-
-- [json-inspect](#json-inspect)
-  - [Installation](#installation)
-  - [Sub-Commands](#sub-commands)
-    - [histo](#histo)
-    - [ext](#ext)
-  - [Planned Improvements](#planned-improvements)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
 # json-inspect
 
 [![PyPI version](https://badge.fury.io/py/json-inspect.svg)](https://badge.fury.io/py/json-inspect)
@@ -23,8 +10,17 @@ A command-line tool for inspecting and working with JSON files. Current sub-comm
 * `validate` (coming soon if I need it)
 * `format` (coming soon if I need it)
 
-Each sub-command provides an individual utility for inspecting JSON files and each is documented separately
-below.
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [Installation](#installation)
+- [Sub-Commands](#sub-commands)
+  - [histo](#histo)
+  - [ext](#ext)
+- [Planned Improvements](#planned-improvements)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Installation
 
