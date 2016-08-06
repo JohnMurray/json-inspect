@@ -1,5 +1,8 @@
 # json-inspect
 
+[![PyPI version](https://badge.fury.io/py/json-inspect.svg)](https://badge.fury.io/py/json-inspect)
+[![PyPI license](https://img.shields.io/pypi/l/json-inspect.svg?maxAge=2592000)](https://github.com/JohnMurray/json-inspect/blob/master/LICENSE)
+
 A command-line tool for inspecting and working with JSON files. Current sub-commands supported include
 
 * `histo`
