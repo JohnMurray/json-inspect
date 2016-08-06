@@ -48,12 +48,12 @@ def main():
 
   # validate sub-command
   parser_val = sub_parsers.add_parser('validate', description='Given some text, determine if it is valid JSON or not',
-                                      help='Validate text input as JSON')
+                                      help='Validate text input as JSON (coming soon maybe)')
   parser_val.set_defaults(func=command_validate)
 
   # format sub-command
   parser_fmt = sub_parsers.add_parser('format', description='Nicely format JSON input',
-                                      help='Nicely format JSON input')
+                                      help='Nicely format JSON input (coming soon maybe)')
   parser_fmt.set_defaults(func=command_format)
 
   args = parser.parse_args()
