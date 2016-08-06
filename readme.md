@@ -5,10 +5,7 @@
 
 A command-line tool for inspecting and working with JSON files. Current sub-commands supported include
 
-* `histo`
-* `extract`
-* `validate` (coming soon if I need it)
-* `format` (coming soon if I need it)
+__Table of Contents__
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
