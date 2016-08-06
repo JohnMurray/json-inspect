@@ -173,3 +173,8 @@ Louisville,Kentucky,US,Highland Heights,Kentucky,US,Wales,UK
 $ cat test.json | json-inspect ext -d '|' "[].*.user.demographic.regions.[].*"
 Louisville|Kentucky|US|Highland Heights|Kentucky|US|Wales|UK
 ```
+
+## Planned Improvements
+
+[ ] Refactor code to be testable (maybe write some test)
+[ ] Add support for `**`
