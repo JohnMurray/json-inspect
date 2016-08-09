@@ -46,6 +46,12 @@ def main():
                           help='search paths to return values for')
   parser_ext.set_defaults(func=command_extract)
 
+  # keys command
+  parser_keys = sub_parsers.add_parser('keys', description='List all keys within the JSON document'
+                                       ' using a period-delimited notation similar to search-paths',
+                                       help='Lists keys in a JSON document')
+  parser_keys.set_defaults(func=command_keys)
+
   # validate sub-command
   parser_val = sub_parsers.add_parser('validate', description='Given some text, determine if it is valid JSON or not',
                                       help='Validate text input as JSON (coming soon maybe)')
@@ -65,11 +71,64 @@ def command_format(args):
   """
   print("Command not yet implimented yet")
 
+
 def command_validate(args):
   """
   Validate that the given input is JSON
   """
   print("Command not yet implimented yet")
+
+
+def command_keys(args):
+  """
+  Extract the keys from a JSON document
+  """
+  _json = read_json(args.file)
+  if _json is None or len(_json) is 0:
+    print ("No file or STDIN provided")
+    sys.exit(1)
+
+  if isinstance(_json, list):
+    _json = { '__root__': _json }
+
+  key_map = {}                          # map of keys (will be compressed at end)
+  search_stack = [(key_map, _json)]     # values left to search (initially whole object)
+  
+  # must be a 'dict' at this point
+  while search_stack:
+    _k_map, node = search_stack.pop()
+    if isinstance(node, dict):
+      for k,v in node.iteritems():
+        _k_map[k] = {}
+        search_stack.append((_k_map[k], v))
+    elif isinstance(v, list):
+      for item in node:
+        search_stack.append((_k_map, item))
+    else:
+      # The value is primitive, we've extinguished this search
+      pass
+
+  # compress the key map
+  key_set = []
+  key_stack = [(k, key_map, '') for k in key_map.keys()]
+  while key_stack:
+    k, _k_map, agg = key_stack.pop()
+    if len(agg) == 0:
+      agg = k
+    elif agg == '__root__':
+      agg = k
+    else:
+      agg = agg + '.' + k
+    if _k_map[k].keys():
+      for sub_key in _k_map[k].keys():
+        key_stack.append( (sub_key, _k_map[k], agg) )
+    else:
+      key_set.append(agg)
+
+  # print out the result for the user
+  for key in key_set:
+    print(key)
+  
 
 def command_extract(args):
   """
