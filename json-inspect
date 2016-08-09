@@ -101,7 +101,7 @@ def command_keys(args):
       for k,v in node.iteritems():
         _k_map[k] = {}
         search_stack.append((_k_map[k], v))
-    elif isinstance(v, list):
+    elif isinstance(node, list):
       for item in node:
         search_stack.append((_k_map, item))
     else:
