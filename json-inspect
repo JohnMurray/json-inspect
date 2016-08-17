@@ -12,9 +12,11 @@ import operator
 import os
 import sys
 
+from jsoninspectlib import __version__
+
 
 def main():
-  parser = argparse.ArgumentParser(description='Utility for inspecting JSON files/input')
+  parser = argparse.ArgumentParser(description='Utility for inspecting JSON files/input', version=__version__)
   parser.add_argument('-f' , '--file', nargs=1, action='store',
                       help='JSON file to read in. If not provided STDIN will be used')
   sub_parsers = parser.add_subparsers()
