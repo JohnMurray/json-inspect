@@ -1,9 +1,9 @@
-default: doctoc
+default: release
 
 setup:
 	npm install -g doctoc
+	pip install pyandoc
 
-doctoc:
+release:
 	doctoc readme.md --github --notitle
-	cp readme.md README
-	doctoc README --github --notitle
+	python setup.py sdist upload
