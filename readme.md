@@ -35,19 +35,21 @@ sub-commands, run the utility with the `-h` options without providing a sub-comm
 
 ```text
 $ json-inspect -h
-usage: json-inspect [-h] [-f FILE] {histo,ext,validate,format} ...
+usage: json-inspect [-h] [-v] [-f FILE] {histo,ext,keys,validate,format} ...
 
 Utility for inspecting JSON files/input
 
 positional arguments:
-  {histo,ext,validate,format}
+  {histo,ext,keys,validate,format}
     histo               Create histograms from JSON values
     ext                 Extract values from JSON
-    validate            Validate text input as JSON
-    format              Nicely format JSON input
+    keys                Lists keys in a JSON document
+    validate            Validate text input as JSON (coming soon maybe)
+    format              Nicely format JSON input (coming soon maybe)
 
 optional arguments:
   -h, --help            show this help message and exit
+  -v, --version         show program's version number and exit
   -f FILE, --file FILE  JSON file to read in. If not provided STDIN will be
                         used
 ```
@@ -180,7 +182,63 @@ $ cat test.json | json-inspect ext -d '|' "[].*.user.demographic.regions.[].*"
 Louisville|Kentucky|US|Highland Heights|Kentucky|US|Wales|UK
 ```
 
+### keys
+
+The `keys` command is used for listing alls keys found within a JSON document. Flags can be
+provided to filter which keys are extracted. 
+
+```
+$ json-inspect keys -h
+usage: json-inspect keys [-h] [-n] [-o] [-p] [-e]
+
+List all keys within the JSON document using a period-delimited notation
+similar to search-paths
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -n, --exclude-null    Exclude keys that contain a null value
+  -o, --exclude-empty-objects
+                        Exclude keys that contain an empty object
+  -p, --exclude-empty-primitives
+                        Exclude keys that contain an empty primitive value
+                        (zero and empty string)
+  -e, --exclude-empty-array
+                        Exclude keys that contain an empty array value
+```
+
+Adding a new lines to each top-level object in our `test.json` with
+
+```
+ "null": null,
+ "empty_object": {},
+ "empty_array": [],
+ "empty_string": "",
+ "empty_int": 0,
+ "empty_float": 0.0,
+ ```
+
+ We can make some sample calls such as
+
+ ```bash
+ $ cat test.json | json-inspect keys
+ facebook.null
+ facebook.empty_object
+ facebook.user.demographic.regions.name
+ facebook.empty_float
+ facebook.empty_array
+ # ...
+ ```
+
+ ```bash
+ # filter all keys with empty values
+ $ cat test.json | json-inspect keys -nope
+ facebook.user.demographic.regions.name
+ google.user.demographic.regions.name
+ twitter.user.demographic.regions.name
+ ```
+
 ## Planned Improvements
 
 [ ] Refactor code to be testable (maybe write some test)
 [ ] Add support for `**`
+
