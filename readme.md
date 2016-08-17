@@ -15,6 +15,7 @@ __Table of Contents__
 - [Sub-Commands](#sub-commands)
   - [histo](#histo)
   - [ext](#ext)
+  - [keys](#keys)
 - [Planned Improvements](#planned-improvements)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
