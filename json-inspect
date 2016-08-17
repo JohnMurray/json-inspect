@@ -50,6 +50,14 @@ def main():
   parser_keys = sub_parsers.add_parser('keys', description='List all keys within the JSON document'
                                        ' using a period-delimited notation similar to search-paths',
                                        help='Lists keys in a JSON document')
+  parser_keys.add_argument('-n', '--exclude-null', dest='null', action='store_true', default=False,
+                           help='Exclude keys that contain a null value')
+  parser_keys.add_argument('-o', '--exclude-empty-objects', dest='empty_object', action='store_true', default=False,
+                           help='Exclude keys that contain an empty object')
+  parser_keys.add_argument('-p', '--exclude-empty-primitives', dest='empty_primitive', action='store_true', default=False,
+                           help='Exclude keys that contain an empty primitive value (zero and empty string)')
+  parser_keys.add_argument('-e', '--exclude-empty-array', dest='empty_array', action='store_true', default=False,
+                           help='Exclude keys that contain an empty array value')
   parser_keys.set_defaults(func=command_keys)
 
   # validate sub-command
@@ -93,14 +101,21 @@ def command_keys(args):
 
   key_map = {}                          # map of keys (will be compressed at end)
   search_stack = [(key_map, _json)]     # values left to search (initially whole object)
+  empty_ignore_types = {                # The value types we should ignore if empty
+    'dict':      args.empty_object,
+    'list':      args.empty_array,
+    'primitive': args.empty_primitive,
+    'null':      args.null,
+  }
   
   # must be a 'dict' at this point
   while search_stack:
     _k_map, node = search_stack.pop()
     if isinstance(node, dict):
       for k,v in node.iteritems():
-        _k_map[k] = {}
-        search_stack.append((_k_map[k], v))
+        if not is_empty(v, **empty_ignore_types):
+          _k_map[k] = {}
+          search_stack.append((_k_map[k], v))
     elif isinstance(node, list):
       for item in node:
         search_stack.append((_k_map, item))
@@ -259,6 +274,28 @@ def build_histo(json, path, conflate):
       results[str(res)] = 1
 
   return results
+
+
+
+
+##
+## Helper functions
+##
+
+def is_empty(value, **types):
+  return (types['dict'] and isinstance(value, dict) and len(value) == 0) or \
+         (types['list'] and isinstance(value, list) and len(value) == 0) or \
+         (types['primitive'] and is_empty_primitive(value))              or \
+         (value is None and types['null'])
+
+def is_empty_primitive(value, **types):
+  """
+  Return true if the given value is an empty primitive. This includes 0 and
+  the empty string.
+  """
+  return (isinstance(value, int) and value == 0)            or \
+         (isinstance(value, float) and value == 0.0)        or \
+         (isinstance(value, basestring) and len(value) == 0)
 
 def read_json(filename):
   """

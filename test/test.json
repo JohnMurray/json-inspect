@@ -1,6 +1,12 @@
 [
  {
    "facebook": {
+     "null": null,
+     "empty_object": {},
+     "empty_array": [],
+     "empty_string": "",
+     "empty_int": 0,
+     "empty_float": 0.0,
      "user": {
        "demographic": {
          "regions": [ {"name": "US"}, {"name": "Kentucky"}, {"name": "Louisville"} ]
@@ -8,6 +14,12 @@
      }
    },
    "google": {
+     "null": null,
+     "empty_object": {},
+     "empty_array": [],
+     "empty_string": "",
+     "empty_int": 0,
+     "empty_float": 0.0,
      "user": {
        "demographic": {
          "regions": [ {"name": "US"}, {"name": "Kentucky"}, {"name": "Highland Heights"} ]
@@ -17,6 +29,12 @@
  },
  {
    "twitter": {
+     "null": null,
+     "empty_object": {},
+     "empty_array": [],
+     "empty_string": "",
+     "empty_int": 0,
+     "empty_float": 0.0,
      "user": {
        "demographic": {
          "regions": [ {"name": "UK"}, {"name": "Wales"} ]
