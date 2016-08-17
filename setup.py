@@ -4,7 +4,7 @@ from distutils.core import setup
 
 setup(
     name = 'json-inspect',
-    version = '0.1.3',
+    version = '0.1.4',
 
     author = 'John Murray',
     author_email = 'me@johnmurray.io',
