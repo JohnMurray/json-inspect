@@ -210,17 +210,17 @@ optional arguments:
 Adding a new lines to each top-level object in our `test.json` with
 
 ```
- "null": null,
- "empty_object": {},
- "empty_array": [],
- "empty_string": "",
- "empty_int": 0,
- "empty_float": 0.0,
+"null": null,
+"empty_object": {},
+"empty_array": [],
+"empty_string": "",
+"empty_int": 0,
+"empty_float": 0.0,
  ```
 
  We can make some sample calls such as
 
- ```bash
+ ```
  $ cat test.json | json-inspect keys
  facebook.null
  facebook.empty_object
@@ -228,9 +228,7 @@ Adding a new lines to each top-level object in our `test.json` with
  facebook.empty_float
  facebook.empty_array
  # ...
- ```
 
- ```bash
  # filter all keys with empty values
  $ cat test.json | json-inspect keys -nope
  facebook.user.demographic.regions.name
